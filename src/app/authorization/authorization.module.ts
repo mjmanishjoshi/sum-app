@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AngularFireAuthModule } from 'angularfire2/auth';
 import {
   MatFormFieldModule,
   MatInputModule,
@@ -20,7 +19,6 @@ import { ResetComponent } from './reset/reset.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularFireAuthModule,
     AuthorizationRoutingModule,
     MatFormFieldModule,
     MatInputModule,
@@ -28,6 +26,7 @@ import { ResetComponent } from './reset/reset.component';
     MatIconModule,
     FlexLayoutModule
   ],
-  declarations: [LoginComponent, RegisterComponent, ResetComponent]
+  declarations: [LoginComponent, RegisterComponent, ResetComponent],
+  providers: [],
 })
 export class AuthorizationModule { }

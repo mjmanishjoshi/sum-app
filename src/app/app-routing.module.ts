@@ -5,6 +5,10 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: './authorization/authorization.module#AuthorizationModule'
+  },
+  {
+    path: 'admin',
+    loadChildren: './administration/administration.module#AdministrationModule'
   }
 ];
 

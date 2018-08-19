@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { FormControl, Validators } from '@angular/forms';
 import { auth } from 'firebase';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'auth-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   private bError: boolean = false;
   private sErrorMessage: string = "";
 
-  constructor(private afAuth: AngularFireAuth) { }
+  constructor(private afAuth: AngularFireAuth, private router: Router, private aRoute: ActivatedRoute) { }
 
   ngOnInit() {
   }
@@ -25,15 +26,15 @@ export class LoginComponent implements OnInit {
       this.bError = false;
       this.sErrorMessage = "";
       this.afAuth.auth.signInWithEmailAndPassword(this.fEmail.value, this.fPassword.value)
-        .catch(this.onLoginError)
-        .then(this.onLoginSuccess);
+        .catch(r => this.onLoginError(r))
+        .then(u => this.onLoginSuccess(u));
     }
   }
 
   private loginWithGoogle() {
     this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider())
-      .catch(this.onLoginError)
-      .then(this.onLoginSuccess);
+      .catch(r => this.onLoginError(r))
+      .then(u => this.onLoginSuccess(u));
   }
 
   private onLoginError(r: any) {
@@ -42,7 +43,9 @@ export class LoginComponent implements OnInit {
   }
 
   private onLoginSuccess(u: any) {
-    console.log(u);
+    this.aRoute.queryParams.subscribe(p => {
+      this.router.navigateByUrl(p.callerUrl);
+    });
   }
 
   private getEmailErrorMessage() {
