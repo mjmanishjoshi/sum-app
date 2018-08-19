@@ -1,0 +1,24 @@
+<div fxLayout="column" fxLayoutAlign="space-between center">
+  <p class="mat-title">LOGIN TO YOUR ACCOUNT</p>
+  <mat-error class="mat-caption" *ngIf="bError">{{sErrorMessage}}</mat-error>
+  <div fxLayout="column" fxLayoutAlign=" stretch">
+    <mat-form-field>
+      <input matInput placeholder="Email" [formControl]="fEmail" required />
+      <mat-error *ngIf="fEmail.invalid">{{getEmailErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Password" [formControl]="fPassword" [type]="bHidePassword ? 'password' : 'text'" required />
+      <mat-icon matSuffix (click)="bHidePassword = !bHidePassword">{{bHidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+      <mat-error *ngIf="fPassword.invalid">{{getPasswordErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <p align="right" class="mat-body-2">
+      <a routerLink="../reset" routerLinkActive="active">Forgot Password?</a>
+    </p>
+  </div>
+  <button mat-flat-button (click)="login()">Login</button>
+  <p class="mat-body-2">OR</p>
+  <button mat-button (click)="loginWithGoogle()">Log in with Google</button>
+  <p align="center" class="mat-body-2">Don't have an account?<br/>
+    <a routerLink="../register" routerLinkActive="active">Create an account</a>
+  </p>
+</div>

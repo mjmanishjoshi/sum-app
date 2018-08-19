@@ -1,0 +1,13 @@
+<div fxLayout="column" fxLayoutAlign="space-between center">
+    <p class="mat-title">RECOVER YOUR PASSWORD</p>
+    <div fxLayout="column" fxLayoutAlign=" stretch">
+      <mat-form-field>
+        <input matInput placeholder="Email" [formControl]="fEmail" required />
+        <mat-error *ngIf="fEmail.invalid">{{getEmailErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+    <button mat-flat-button (click)="reset()">Send reset link</button>
+    <p align="center" class="mat-body-2">
+      <a routerLink="../login" routerLinkActive="active">Go back to login</a>
+    </p>
+  </div>
