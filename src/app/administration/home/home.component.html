@@ -1,3 +1,3 @@
-<p>
-  home works!
-</p>
+<div fxFill fxlayoutgap="50px grid" fxlayout="row wrap" class="panel-card-container">
+  <mat-card *ngFor="let account of accounts | async" class="panel-card">{{ account.name }}</mat-card>
+</div>

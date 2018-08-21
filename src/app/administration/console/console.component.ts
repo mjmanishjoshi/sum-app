@@ -1,15 +1,26 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { ConsoleService } from '../console.service';
+
+interface ConsoleLink {
+  label: string;
+  icon: string;
+  target: string;
+}
 
 @Component({
   selector: 'admin-console',
   templateUrl: './console.component.html',
   styleUrls: ['./console.component.sass']
 })
-export class ConsoleComponent implements OnInit {
 
-  constructor(private afAuth: AngularFireAuth, private router: Router, private zone: NgZone) { }
+export class ConsoleComponent implements OnInit {
+  private links: ConsoleLink[] = [{ label: "Accounts", icon: "home", target: "/auth/login" }, { label: "dummy", icon: "home", target: "/auth/login" }];
+  private path: ConsoleLink[] = [{ label: "Accounts", icon: "home", target: "/auth/login" }, { label: "dummy", icon: "home", target: "/auth/login" }];
+
+  constructor(private afAuth: AngularFireAuth, private srv: ConsoleService,
+    private router: Router, private zone: NgZone) { }
 
   ngOnInit() {
     this.afAuth.auth.onAuthStateChanged(u => {
@@ -17,13 +28,13 @@ export class ConsoleComponent implements OnInit {
         this.zone.run(() => this.goToLoginPage());
       }
       else {
-
+        this.srv.setUserInfo({ uid: u.uid });
       }
     })
   }
 
   goToLoginPage() {
-    this.router.navigate(['/auth/login'], {queryParams: {callerUrl: this.router.url}});
+    this.router.navigate(['/auth/login'], { queryParams: { callerUrl: this.router.url } });
   }
 
 }

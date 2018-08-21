@@ -1,15 +1,16 @@
-<mat-drawer-container class="fullscreen">
-  <mat-drawer #drawer mode="side">
-    <p>Auto-resizing sidenav</p>
-    <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
-    <button (click)="showFiller = !showFiller" mat-raised-button>
-      Toggle extra text
-    </button>
-  </mat-drawer>
-
-  <div>
-    <button mat-button (click)="drawer.toggle()">
-      Toggle sidenav
-    </button>
-  </div>
-</mat-drawer-container>
+<mat-sidenav-container class="fullscreen">
+  <mat-sidenav mode="side" opened>
+    <mat-nav-list>
+      <mat-list-item *ngFor="let link of links">
+        <mat-icon matListIcon>{{ link.icon }}</mat-icon>
+        <a matLine routerLink="{{ link.target }}">{{ link.label }}</a>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <ul class="breadcrumb mat-body-2">
+      <li *ngFor="let step of path"><a routerLink="{{ step.target }}" routerLinkActive="active">{{ step.label }}</a> / </li>
+    </ul>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

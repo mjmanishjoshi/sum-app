@@ -6,7 +6,11 @@ import { ConsoleComponent } from './console/console.component';
 const routes: Routes = [
   {
     path: '',
-    component: ConsoleComponent
+    component: ConsoleComponent,
+    children: [
+      { path: '', redirectTo: 'home' },
+      { path: 'home', component: HomeComponent }
+    ]
   }
 ];
 
