@@ -9,7 +9,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <ul class="breadcrumb mat-body-2">
-      <li *ngFor="let step of path"><a routerLink="{{ step.target }}" routerLinkActive="active">{{ step.label }}</a> / </li>
+      <li *ngFor="let step of path" class="breadcrumb-item"><mat-icon matListIcon>{{ step.icon }}</mat-icon> <a routerLink="{{ step.target }}">{{ step.label }}</a></li>
     </ul>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

@@ -16,20 +16,22 @@ interface ConsoleLink {
 })
 
 export class ConsoleComponent implements OnInit {
-  private links: ConsoleLink[] = [{ label: "Accounts", icon: "home", target: "/auth/login" }, { label: "dummy", icon: "home", target: "/auth/login" }];
-  private path: ConsoleLink[] = [{ label: "Accounts", icon: "home", target: "/auth/login" }, { label: "dummy", icon: "home", target: "/auth/login" }];
+  private links: ConsoleLink[] = [{ label: "Accounts", icon: "", target: "/admin/" }];
+  private path: ConsoleLink[] = [{ label: "Accounts", icon: "home", target: "/admin/" }];
 
   constructor(private afAuth: AngularFireAuth, private srv: ConsoleService,
     private router: Router, private zone: NgZone) { }
 
   ngOnInit() {
     this.afAuth.auth.onAuthStateChanged(u => {
-      if (u == null) {
-        this.zone.run(() => this.goToLoginPage());
-      }
-      else {
-        this.srv.setUserInfo({ uid: u.uid });
-      }
+      this.zone.run(() => {
+        if (u == null) {
+          this.goToLoginPage();
+        }
+        else {
+          this.srv.setUserInfo({ uid: u.uid });
+        }
+      });
     })
   }
 

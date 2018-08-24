@@ -2,9 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { ConsoleService, ConsoleUserInfo } from '../console.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { DetailsComponent } from '../details/details.component';
 
-interface AccountInfo {
+interface AccountInfoEditedStatus extends AccountInfo {
+  saved: boolean;
+}
+
+interface AccountInfo extends AccountInfoData {
+  accid: string;
+}
+
+interface AccountInfoData {
   name: string;
+  description: string;
 }
 
 @Component({
@@ -13,18 +26,55 @@ interface AccountInfo {
   styleUrls: ['./home.component.sass']
 })
 export class HomeComponent implements OnInit {
-  private accounts: Observable<AccountInfo[]>
+  private accounts: Observable<AccountInfo[]>;
+  private accInfoEdited: AccountInfoEditedStatus;
 
-  constructor(private afs: AngularFirestore, private srv: ConsoleService) { }
+  constructor(private afs: AngularFirestore, private srv: ConsoleService, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.srv.user.subscribe(u => {
-      this.getAccountsForUser(u);
+      if (u != null) {
+        this.getAccountsForUser(u);
+      }
     })
   }
 
   getAccountsForUser(user: ConsoleUserInfo) {
-    this.accounts = this.afs.collection<AccountInfo>('accounts', ref => ref.where('owner_uid', '==', user.uid)).valueChanges()
+    this.accounts = this.afs.collection<AccountInfoData>('accounts', ref => ref.where('owner_uid', '==', user.uid)).snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as AccountInfoData;
+        const id = a.payload.doc.id;
+        return { accid: id, ...data };
+      }))
+    );
+  }
+
+  onEdit(accid: string) {
+    this.afs.doc<AccountInfoData>('accounts/' + accid).ref.get().then(value => {
+      const accInfo: AccountInfoData = value.data() as AccountInfoData;
+      this.accInfoEdited = { saved: false, accid: value.id, ...accInfo };
+      this.openEditDialog();
+    }); 
+  }
+
+  onDelete(accid: string) {
+    this.afs.doc<AccountInfoData>('accounts/' + accid).ref.delete();
+  }
+
+  openEditDialog() {
+    const dialogRef = this.dialog.open(DetailsComponent, {
+      data: this.accInfoEdited
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(this.accInfoEdited.saved) {
+        this.saveAccountInfo();
+      }
+    });
+  }
+
+  saveAccountInfo() {
+    const accInfo:AccountInfoData = this.accInfoEdited as AccountInfoData;
+    this.afs.doc<AccountInfoData>('accounts/' + this.accInfoEdited.accid).update(accInfo);
   }
 
 }

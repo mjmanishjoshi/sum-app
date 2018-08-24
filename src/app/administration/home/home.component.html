@@ -1,3 +1,22 @@
-<div fxFill fxlayoutgap="50px grid" fxlayout="row wrap" class="panel-card-container">
-  <mat-card *ngFor="let account of accounts | async" class="panel-card">{{ account.name }}</mat-card>
+<mat-toolbar>
+  <span class="mat-display-1">Accounts</span>
+  <span class="toolbar-spacer"></span>
+  <mat-form-field appearance="outline" class="toolbar-search">
+    <mat-label>Search</mat-label>
+    <input matInput>
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <mat-icon>add</mat-icon>
+</mat-toolbar>
+<div class="panel-card-container">
+  <mat-card *ngFor="let account of accounts | async" class="panel-card">
+    <mat-card-title>
+      <a routerLink="/admin/account/{{ account.accid }}">{{ account.name }}</a>
+    </mat-card-title>
+    <mat-card-content class="panel-content">{{ account.description }}</mat-card-content>
+    <mat-card-actions class="panel-toolbar">
+      <button mat-icon-button (click)="onDelete(account.accid)"><mat-icon>delete</mat-icon></button>
+      <button mat-icon-button (click)="onEdit(account.accid)"><mat-icon>edit</mat-icon></button>
+    </mat-card-actions>
+  </mat-card>
 </div>

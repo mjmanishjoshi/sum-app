@@ -21,6 +21,7 @@ import { AppComponent } from './app.component';
     AngularFirestoreModule,
     AppRoutingModule
   ],
+  exports: [],
   providers: [],
   bootstrap: [AppComponent]
 })
