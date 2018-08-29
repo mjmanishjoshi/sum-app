@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material';
 import { DetailsComponent } from '../details/details.component';
 
 interface AccountInfoEditedStatus extends AccountInfo {
+  added: boolean;
   saved: boolean;
 }
 
@@ -52,29 +53,42 @@ export class HomeComponent implements OnInit {
   onEdit(accid: string) {
     this.afs.doc<AccountInfoData>('accounts/' + accid).ref.get().then(value => {
       const accInfo: AccountInfoData = value.data() as AccountInfoData;
-      this.accInfoEdited = { saved: false, accid: value.id, ...accInfo };
-      this.openEditDialog();
-    }); 
+      this.accInfoEdited = { added: false, saved: false, accid: value.id, ...accInfo };
+      this.openAddEditDialog();
+    });
   }
 
   onDelete(accid: string) {
     this.afs.doc<AccountInfoData>('accounts/' + accid).ref.delete();
   }
 
-  openEditDialog() {
+  onAdd() {
+    this.accInfoEdited = { added: true, saved: false } as AccountInfoEditedStatus;
+    this.openAddEditDialog();
+  }
+
+  openAddEditDialog() {
     const dialogRef = this.dialog.open(DetailsComponent, {
       data: this.accInfoEdited
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(this.accInfoEdited.saved) {
+      if (this.accInfoEdited.saved) {
         this.saveAccountInfo();
       }
     });
   }
 
   saveAccountInfo() {
-    const accInfo:AccountInfoData = this.accInfoEdited as AccountInfoData;
-    this.afs.doc<AccountInfoData>('accounts/' + this.accInfoEdited.accid).update(accInfo);
+    const accInfo: AccountInfoData = { name: this.accInfoEdited.name, description: this.accInfoEdited.description };
+    if (this.accInfoEdited.added) {
+      const userInfo: ConsoleUserInfo = this.srv.user.getValue();
+      if (userInfo != null) {
+        this.afs.collection('accounts').add({ owner_uid: userInfo.uid, ...accInfo });
+      }
+    }
+    else {
+      this.afs.doc<AccountInfoData>('accounts/' + this.accInfoEdited.accid).update(accInfo);
+    }
   }
 
 }

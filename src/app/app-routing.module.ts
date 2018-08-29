@@ -9,6 +9,10 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: './administration/administration.module#AdministrationModule'
+  },
+  {
+    path: 'open',
+    loadChildren: './dashboard/dashboard.module#DashboardModule'
   }
 ];
 

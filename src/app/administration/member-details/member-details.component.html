@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<mat-dialog-content class="dialog-layout">
+    <mat-form-field>
+        <input matInput placeholder="Member" [(ngModel)]="memInfo.member_uid">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Role" [(ngModel)]="memInfo.role">
+    </mat-form-field>
+    <mat-form-field>
+        <textarea matInput placeholder="Description" [(ngModel)]="memInfo.description" class="dialog-description"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Valid From" [(ngModel)]="memInfo.valid_from" type="date">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Valid To" [(ngModel)]="memInfo.valid_to" type="date">
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions class="dialog-toolbar">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="onSave()">Save</button>
+</mat-dialog-actions>

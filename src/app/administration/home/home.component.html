@@ -6,7 +6,9 @@
     <input matInput>
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
-  <mat-icon>add</mat-icon>
+  <button mat-icon-button (click)="onAdd()">
+    <mat-icon>add</mat-icon>
+  </button>
 </mat-toolbar>
 <div class="panel-card-container">
   <mat-card *ngFor="let account of accounts | async" class="panel-card">
