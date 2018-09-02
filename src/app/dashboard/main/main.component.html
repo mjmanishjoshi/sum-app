@@ -1,15 +1,7 @@
-<mat-toolbar>
-  <mat-select [value]="currentLayoutid" (selectionChange)="onLayoutSelection($event)">
-    <mat-option *ngFor="let layout of layouts | async" [value]="layout.layoutid">
-      {{layout.title}}
-    </mat-option>
-  </mat-select>
-  <span class="toolbar-spacer"></span>
-</mat-toolbar>
 <table class="layout-table">
   <tbody>
-    <tr *ngFor="let row of layoutRows | async">
-      <td *ngFor="let col of row.cols" [width]="col.width" [attr.rowspan]="col.rowspan" [attr.colspan]="col.colspan">
+    <tr *ngFor="let row of layoutRows" class="layout-row">
+      <td *ngFor="let col of row.cols" [width]="col.width" [attr.rowspan]="col.rowspan" [attr.colspan]="col.colspan" [dragula]="dragGroup">
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -19,7 +11,7 @@
               Description
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <p>Content</p>
+          <ng-template dashboard-tile-host></ng-template>
           <mat-action-row>
             <button mat-button>Click me</button>
           </mat-action-row>

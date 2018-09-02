@@ -5,11 +5,16 @@ import {
   MatExpansionModule,
   MatButtonModule,
   MatToolbarModule,
-  MatSelectModule
+  MatSelectModule,
+  MatIconModule,
+  MatMenuModule
 } from '@angular/material';
+import { DragulaModule } from 'ng2-dragula';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MainComponent } from './main/main.component';
+import { TileDirective } from './tile.directive';
+import { AccountComponent } from './account/account.component';
 
 @NgModule({
   imports: [
@@ -19,8 +24,11 @@ import { MainComponent } from './main/main.component';
     MatButtonModule,
     MatToolbarModule,
     MatSelectModule,
+    MatIconModule,
+    MatMenuModule,
+    DragulaModule,
     DashboardRoutingModule
   ],
-  declarations: [MainComponent]
+  declarations: [MainComponent, AccountComponent, TileDirective]
 })
 export class DashboardModule { }

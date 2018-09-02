@@ -1,0 +1,40 @@
+<mat-toolbar>
+  <span>{{srv.currentLayoutTitle}}</span>
+  <mat-menu #layoutMenu="matMenu">
+    <button mat-menu-item *ngFor="let layout of layouts | async" (click)="onLayoutSelection(layout.layoutid)">
+      {{layout.title}}
+    </button>
+  </mat-menu>
+  <button mat-icon-button [matMenuTriggerFor]="layoutMenu">
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+  <span class="toolbar-spacer"></span>
+  <div *ngIf="isLayoutLoaded">
+    <button *ngIf="!isEditing" mat-icon-button (click)="onEditDashboard()">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button *ngIf="isEditing" mat-icon-button (click)="onDoneDashboard(true)">
+      <mat-icon>done</mat-icon>
+    </button>
+    <button *ngIf="isEditing" mat-icon-button (click)="onDoneDashboard(false)">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="accountMenu">
+      <mat-icon>folder_shared</mat-icon>Switch account
+    </button>
+    <button mat-menu-item (click)="onLogoff()">
+      <mat-icon>exit_to_app</mat-icon>Sign out
+    </button>
+  </mat-menu>
+  <mat-menu #accountMenu="matMenu">
+    <button mat-menu-item *ngFor="let account of accounts | async" (click)="onSwitchAccount(account.accid)">
+      {{account.name}}
+    </button>
+  </mat-menu>
+  <button mat-icon-button [matMenuTriggerFor]="userMenu">
+    <mat-icon>person</mat-icon>
+  </button>
+</mat-toolbar>
+<router-outlet></router-outlet>

@@ -11,8 +11,12 @@ const routes: Routes = [
     loadChildren: './administration/administration.module#AdministrationModule'
   },
   {
-    path: 'open',
+    path: 'dashboard',
     loadChildren: './dashboard/dashboard.module#DashboardModule'
+  },
+  {
+    path: 'internal',
+    loadChildren: './tiles/tiles.module#TilesModule'
   }
 ];
 
