@@ -104,4 +104,11 @@ export class AccountComponent implements OnInit {
   onLogoff() {
     this.afAuth.auth.signOut();
   }
+
+  onEditDashboard() {
+    this.srv.onEdit.emit();
+  }
+  onDoneDashboard(doSave: boolean) {
+    this.srv.onUnEdit.emit(doSave);
+  }
 }

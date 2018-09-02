@@ -9,16 +9,18 @@
     <mat-icon>arrow_drop_down</mat-icon>
   </button>
   <span class="toolbar-spacer"></span>
-  <div *ngIf="isLayoutLoaded">
-    <button *ngIf="!isEditing" mat-icon-button (click)="onEditDashboard()">
+  <div *ngIf="srv.isLayoutLoaded">
+    <button *ngIf="!srv.isEditing" mat-icon-button (click)="onEditDashboard()">
       <mat-icon>edit</mat-icon>
     </button>
-    <button *ngIf="isEditing" mat-icon-button (click)="onDoneDashboard(true)">
-      <mat-icon>done</mat-icon>
-    </button>
-    <button *ngIf="isEditing" mat-icon-button (click)="onDoneDashboard(false)">
-      <mat-icon>close</mat-icon>
-    </button>
+    <div *ngIf="srv.isEditing">
+      <button mat-icon-button (click)="onDoneDashboard(true)">
+        <mat-icon>done</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDoneDashboard(false)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
   <mat-menu #userMenu="matMenu">
     <button mat-menu-item [matMenuTriggerFor]="accountMenu">

@@ -42,6 +42,12 @@ export class MainComponent implements OnInit, AfterViewInit {
       if (l != null) {
         this.loadLayout();
       }
+    });
+    this.srv.onEdit.subscribe(() => {
+      this.onEditDashboard();
+    });
+    this.srv.onUnEdit.subscribe(doSave => {
+      this.onDoneDashboard(doSave);
     })
   }
 
@@ -52,16 +58,15 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   private layoutRows: LayoutRowInfo[];
-  private isLayoutLoaded: boolean = false;
   loadLayout() {
-    this.isLayoutLoaded = false;
+    this.srv.isLayoutLoaded = false;
     this.srv.currentLayoutTitle = "";
     this.afs.doc<LayoutUsageInfo>('accounts/' + this.srv.layout.value.accid +
       '/layouts/' + this.srv.layout.value.layoutid).valueChanges()
       .subscribe(l => {
         this.srv.currentLayoutTitle = l.title;
         this.layoutRows = l.rows;
-        this.isLayoutLoaded = true;
+        this.srv.isLayoutLoaded = true;
       });
   }
   createTileComponent() {
@@ -77,19 +82,17 @@ export class MainComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private isEditing: boolean = false;
   private dragGroup: string = "";
   onEditDashboard() {
-    this.isEditing = true;
+    this.srv.isEditing = true;
     this.dragGroup = "TILES";
   }
   onDoneDashboard(doSave: boolean) {
-    this.isEditing = false;
+    this.srv.isEditing = false;
     this.dragGroup = "";
     if (doSave) {
 
     }
     this.loadLayout();
   }
-
 }
