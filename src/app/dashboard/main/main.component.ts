@@ -1,6 +1,6 @@
 import {
   Component, OnInit, ViewChildren, QueryList, AfterViewInit, Type,
-  NgModuleFactoryLoader, NgModuleFactory, Injector, NgModuleRef
+  NgModuleFactoryLoader, NgModuleFactory, Injector, NgModuleRef, ChangeDetectorRef
 } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { TileDirective } from '../tile.directive';
@@ -32,7 +32,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   @ViewChildren(TileDirective) tileChildren: QueryList<TileDirective>;
 
   constructor(private afs: AngularFirestore, private loader: NgModuleFactoryLoader, private injector: Injector,
-    private srv: DashboardService) { }
+    private srv: DashboardService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.loader.load('./tiles/tiles.module#TilesModule').then(f => {
@@ -54,6 +54,8 @@ export class MainComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.tileChildren.changes.subscribe(() => {
       this.createTileComponent();
+      // This is to prevent ExpressionChangedAfterItHasBeenCheckedError
+      this.cd.detectChanges();
     });
   }
 
@@ -61,8 +63,8 @@ export class MainComponent implements OnInit, AfterViewInit {
   loadLayout() {
     this.srv.isLayoutLoaded = false;
     this.srv.currentLayoutTitle = "";
-    this.afs.doc<LayoutUsageInfo>('accounts/' + this.srv.layout.value.accid +
-      '/layouts/' + this.srv.layout.value.layoutid).valueChanges()
+    this.afs.doc<LayoutUsageInfo>('accounts/' + this.srv.account.value +
+      '/layouts/' + this.srv.layout.value).valueChanges()
       .subscribe(l => {
         this.srv.currentLayoutTitle = l.title;
         this.layoutRows = l.rows;

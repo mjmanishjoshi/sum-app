@@ -1,3 +1,25 @@
-<p>
-  collaboration works!
-</p>
+<div class="card-container">
+    <div *ngFor="let collaboration of collaborations | async" class="card-tile">
+        <mat-card class="card">
+            <mat-card-header>
+                <mat-card-title>{{collaboration.name}}</mat-card-title>
+                <mat-card-subtitle>Collaboration</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p>{{collaboration.description}}</p>
+            </mat-card-content>
+            <mat-card-actions>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    <div class="card-tile">
+        <mat-card class="card card-new">
+            <mat-card-content class="card-new">
+                <mat-icon>add_box</mat-icon>
+                <p>
+                    Create new collaboration
+                </p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

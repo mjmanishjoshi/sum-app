@@ -1,12 +1,21 @@
 import { NgModule, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  MatCardModule,
+  MatIconModule
+} from '@angular/material';
+
 import { CollaborationComponent } from './collaboration/collaboration.component';
 import { TileComponent } from '../dashboard/tile.component';
 import { TileModule } from '../dashboard/tile.module';
+import { UiComponentsModule } from '../ui-components/ui-components.module';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    MatCardModule,
+    MatIconModule,
+    UiComponentsModule
   ],
   entryComponents: [
     CollaborationComponent

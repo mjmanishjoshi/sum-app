@@ -23,7 +23,8 @@ import { AppComponent } from './app.component';
     DragulaModule.forRoot(),
     AppRoutingModule
   ],
-  exports: [],
+  exports: [
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

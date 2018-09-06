@@ -15,6 +15,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MainComponent } from './main/main.component';
 import { TileDirective } from './tile.directive';
 import { AccountComponent } from './account/account.component';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,6 @@ import { AccountComponent } from './account/account.component';
     DragulaModule,
     DashboardRoutingModule
   ],
-  declarations: [MainComponent, AccountComponent, TileDirective]
+  declarations: [MainComponent, AccountComponent, LayoutComponent, TileDirective]
 })
 export class DashboardModule { }

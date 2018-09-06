@@ -2,23 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { ConsoleService, ConsoleUserInfo } from '../console.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { DetailsComponent } from '../details/details.component';
+import { AccountInfo, ModelService, AccountInfoData } from '../../model.service';
 
 interface AccountInfoEditedStatus extends AccountInfo {
   added: boolean;
   saved: boolean;
-}
-
-interface AccountInfo extends AccountInfoData {
-  accid: string;
-}
-
-interface AccountInfoData {
-  name: string;
-  description: string;
 }
 
 @Component({
@@ -30,24 +21,14 @@ export class HomeComponent implements OnInit {
   private accounts: Observable<AccountInfo[]>;
   private accInfoEdited: AccountInfoEditedStatus;
 
-  constructor(private afs: AngularFirestore, private srv: ConsoleService, private router: Router, private dialog: MatDialog) { }
+  constructor(private afs: AngularFirestore, private srv: ConsoleService, private router: Router, private dialog: MatDialog, private model: ModelService) { }
 
   ngOnInit() {
     this.srv.user.subscribe(u => {
       if (u != null) {
-        this.getAccountsForUser(u);
+        this.accounts = this.model.getAccountsForUser(u.uid);
       }
     })
-  }
-
-  getAccountsForUser(user: ConsoleUserInfo) {
-    this.accounts = this.afs.collection<AccountInfoData>('accounts', ref => ref.where('owner_uid', '==', user.uid)).snapshotChanges().pipe(
-      map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as AccountInfoData;
-        const id = a.payload.doc.id;
-        return { accid: id, ...data };
-      }))
-    );
   }
 
   onEdit(accid: string) {
