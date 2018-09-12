@@ -43,12 +43,6 @@ export class MainComponent implements OnInit, AfterViewInit {
         this.loadLayout();
       }
     });
-    this.srv.onEdit.subscribe(() => {
-      this.onEditDashboard();
-    });
-    this.srv.onUnEdit.subscribe(doSave => {
-      this.onDoneDashboard(doSave);
-    })
   }
 
   ngAfterViewInit() {
@@ -61,14 +55,11 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   private layoutRows: LayoutRowInfo[];
   loadLayout() {
-    this.srv.isLayoutLoaded = false;
-    this.srv.currentLayoutTitle = "";
+    this.srv.isEditing = false;
     this.afs.doc<LayoutUsageInfo>('accounts/' + this.srv.account.value +
       '/layouts/' + this.srv.layout.value).valueChanges()
       .subscribe(l => {
-        this.srv.currentLayoutTitle = l.title;
         this.layoutRows = l.rows;
-        this.srv.isLayoutLoaded = true;
       });
   }
   createTileComponent() {
@@ -85,7 +76,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   private dragGroup: string = "";
-  onEditDashboard() {
+  /*onEditDashboard() {
     this.srv.isEditing = true;
     this.dragGroup = "TILES";
   }
@@ -96,5 +87,5 @@ export class MainComponent implements OnInit, AfterViewInit {
 
     }
     this.loadLayout();
-  }
+  }*/
 }

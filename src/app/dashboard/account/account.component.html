@@ -14,11 +14,11 @@
       <mat-icon>edit</mat-icon>
     </button>
     <div *ngIf="srv.isEditing">
-      <button mat-icon-button (click)="onDoneDashboard(true)">
-        <mat-icon>done</mat-icon>
+      <button mat-icon-button (click)="onSaveDashboard()">
+        <mat-icon>save</mat-icon>
       </button>
-      <button mat-icon-button (click)="onDoneDashboard(false)">
-        <mat-icon>close</mat-icon>
+      <button mat-icon-button (click)="onViewDashboard()">
+        <mat-icon>launch</mat-icon>
       </button>
     </div>
   </div>

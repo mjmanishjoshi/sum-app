@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from './main/main.component';
 import { AccountComponent } from './account/account.component';
 import { LayoutComponent } from './layout/layout.component';
+import { EditLayoutComponent } from './edit-layout/edit-layout.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
         component: LayoutComponent,
         children: [
           { path: '', redirectTo: 'main' },
-          { path: 'main', component: MainComponent }
+          { path: 'main', component: MainComponent },
+          { path: 'edit', component: EditLayoutComponent }
         ]
       }
     ]

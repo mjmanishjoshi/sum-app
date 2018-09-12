@@ -12,8 +12,7 @@ export class DashboardService {
   currentLayoutTitle: string;
   isLayoutLoaded: boolean = false;
   isEditing: boolean = false;
-  onEdit: EventEmitter<void> = new EventEmitter();
-  onUnEdit: EventEmitter<boolean> = new EventEmitter();
+  onSave: EventEmitter<void> = new EventEmitter();
 
   constructor() { }
 
@@ -24,6 +23,4 @@ export class DashboardService {
   setLayout(layoutid: string) {
     this.layout.next(layoutid);
   }
-
-
 }

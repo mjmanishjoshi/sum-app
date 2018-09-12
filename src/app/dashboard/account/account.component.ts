@@ -61,9 +61,12 @@ export class AccountComponent implements OnInit {
   }
 
   onEditDashboard() {
-    this.srv.onEdit.emit();
+    this.router.navigate(['dashboard', this.srv.account.value, 'layout', this.srv.layout.value, 'edit']);
   }
-  onDoneDashboard(doSave: boolean) {
-    this.srv.onUnEdit.emit(doSave);
+  onSaveDashboard() {
+    this.srv.onSave.emit();
+  }
+  onViewDashboard() {
+    this.router.navigate(['dashboard', this.srv.account.value, 'layout', this.srv.layout.value, 'main']);
   }
 }
